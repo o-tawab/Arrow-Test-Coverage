@@ -16,19 +16,19 @@ def arw():
 
 
 class TestReplace(object):
-    def test_1(self, arw):  # BC, ISP (base choice)
+    def test_1(self, arw):  # BC, ISP (base choice), RACC
         replaced = arw.replace(day=5, month=10)
         assert str(replaced) == '1995-10-05T13:20:55+00:00'
 
-    def test_2(self, arw):  # BC, ISP (>1 kw, all valid, all larger)
+    def test_2(self, arw):  # BC, ISP (>1 kw, all valid, all larger), RACC
         replaced = arw.replace(day=20, month=10, tzinfo='utc')
         assert str(replaced) == '1995-10-20T13:20:55+00:00'
 
-    def test_3(self, arw):  # BC, ISP (>1 kw, none valid, some smaller & some larger)
+    def test_3(self, arw):  # BC, ISP (>1 kw, none valid, some smaller & some larger), RACC
         with pytest.raises(AttributeError):
             arw.replace(week=3, moon_year=3)
 
-    def test_4(self, arw):  # BC, ISP (>1 kw, some valid, some smaller & some larger)
+    def test_4(self, arw):  # BC, ISP (>1 kw, some valid, some smaller & some larger), RACC
         with pytest.raises(AttributeError):
             arw.replace(day=5, light_year=3)
 
