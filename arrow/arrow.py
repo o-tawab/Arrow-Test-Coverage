@@ -645,7 +645,31 @@ class Arrow(object):
             <Arrow [2013-05-09T03:00:00+00:00]>
         '''
 
-        return self.span(frame)[0]
+        frame_absolute, frame_relative, relative_steps = self._get_frames(frame)
+
+        if frame_absolute == 'week':
+            attr = 'day'
+        elif frame_absolute == 'quarter':
+            attr = 'month'
+        else:
+            attr = frame_absolute
+
+        index = self._ATTRS.index(attr)
+        frames = self._ATTRS[:index + 1]
+
+        values = [getattr(self, f) for f in frames]
+
+        for i in range(3 - len(values)):
+            values.append(1)
+
+        floor = self.__class__(*values, tzinfo=self.tzinfo)
+
+        if frame_absolute == 'week':
+            floor = floor + relativedelta(days=-(self.isoweekday() - 1))
+        elif frame_absolute == 'quarter':
+            floor = floor + relativedelta(months=-((self.month - 1) % 3))
+
+        return floor
 
     def ceil(self, frame):
         ''' Returns a new :class:`Arrow <arrow.arrow.Arrow>` object, representing the "ceiling"
@@ -661,7 +685,34 @@ class Arrow(object):
             <Arrow [2013-05-09T03:59:59.999999+00:00]>
         '''
 
-        return self.span(frame)[1]
+        frame_absolute, frame_relative, relative_steps = self._get_frames(frame)
+
+        if frame_absolute == 'week':
+            attr = 'day'
+        elif frame_absolute == 'quarter':
+            attr = 'month'
+        else:
+            attr = frame_absolute
+
+        index = self._ATTRS.index(attr)
+        frames = self._ATTRS[:index + 1]
+
+        values = [getattr(self, f) for f in frames]
+
+        for i in range(3 - len(values)):
+            values.append(1)
+
+        floor = self.__class__(*values, tzinfo=self.tzinfo)
+
+        if frame_absolute == 'week':
+            floor = floor + relativedelta(days=-(self.isoweekday() - 1))
+        elif frame_absolute == 'quarter':
+            floor = floor + relativedelta(months=-((self.month - 1) % 3))
+
+        ceil = floor + relativedelta(
+            **{frame_relative: relative_steps}) + relativedelta(microseconds=-1)
+
+        return ceil
 
     # string output and formatting.
 
