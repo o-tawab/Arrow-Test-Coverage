@@ -716,7 +716,7 @@ class Arrow(object):
 
     # string output and formatting.
 
-    def format(self, fmt='YYYY-MM-DD HH:mm:ssZZ', locale='en_us'):
+    def format(self, fmt='YYYY-MM-DD HH:mm:ssZZ'):
         ''' Returns a string representation of the :class:`Arrow <arrow.arrow.Arrow>` object,
         formatted according to a format string.
 
@@ -738,7 +738,7 @@ class Arrow(object):
 
         '''
 
-        return formatter.DateTimeFormatter(locale).format(self._datetime, fmt)
+        return formatter.DateTimeFormatter().format(self._datetime, fmt)
 
     def humanize(self, locale='en_us', only_distance=False, granularity='auto'):
         ''' Returns a localized, humanized representation of a relative difference in time.
