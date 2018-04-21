@@ -20,7 +20,7 @@ class TestShift(object):
         shifted = arw.shift(days=5, months=-2)
         assert str(shifted) == '1995-07-24T13:20:55+00:00'
 
-    def test_2(self, arw):  # BC, ISP (1 kw, all valid, all +ve), RACC
+    def test_2(self, arw):  # ISP (1 kw, all valid, all +ve), RACC
         shifted = arw.shift(weeks=1)
         assert str(shifted) == '1995-09-26T13:20:55+00:00'
 
@@ -28,30 +28,30 @@ class TestShift(object):
         with pytest.raises(AttributeError):
             arw.shift(day=-1, tzinfo='local')
 
-    def test_4(self, arw):  # BC, ISP (>1 kw, some valid & some not, some +ve and some -ve), RACC
+    def test_4(self, arw):  # ISP (>1 kw, some valid & some not, some +ve and some -ve), RACC
         with pytest.raises(AttributeError):
             arw.shift(weeks=3, day=-1)
 
-    def test_5(self, arw):  # BC, ISP (empty)
+    def test_5(self, arw):  # ISP (empty)
         shifted = arw.shift()
         assert str(shifted) == '1995-09-19T13:20:55+00:00'
 
-    def test_6(self, arw):  # BC, ISP (>1 kw, all valid, all +ve)
+    def test_6(self, arw):  # ISP (>1 kw, all valid, all +ve)
         shifted = arw.shift(years=3, months=2)
         assert str(shifted) == '1998-11-19T13:20:55+00:00'
 
-    def test_7(self, arw):  # BC, ISP (>1 kw, all valid, all -ve)
+    def test_7(self, arw):  # ISP (>1 kw, all valid, all -ve)
         shifted = arw.shift(years=-3, months=-2)
         assert str(shifted) == '1992-07-19T13:20:55+00:00'
 
-    def test_8(self, arw):  # BC, ISP (>1 kw, all valid, some +ve & some zero)
+    def test_8(self, arw):  # ISP (>1 kw, all valid, some +ve & some zero)
         shifted = arw.shift(years=3, months=0)
         assert str(shifted) == '1998-09-19T13:20:55+00:00'
 
-    def test_9(self, arw):  # BC, ISP (>1 kw, all valid, some -ve & some zero)
+    def test_9(self, arw):  # ISP (>1 kw, all valid, some -ve & some zero)
         shifted = arw.shift(years=-3, months=0)
         assert str(shifted) == '1992-09-19T13:20:55+00:00'
 
-    def test_10(self, arw):  # BC, ISP (>1 kw, all valid, some +ve & some -ve & some zero)
+    def test_10(self, arw):  # ISP (>1 kw, all valid, some +ve & some -ve & some zero)
         shifted = arw.shift(years=-3, months=0, days=3)
         assert str(shifted) == '1992-09-22T13:20:55+00:00'
